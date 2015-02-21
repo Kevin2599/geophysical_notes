@@ -25,6 +25,10 @@ How to load and display SEG-Y files, plus some simple ways to play with the data
 
 #### support data for seismic stuff
 
+* `16_81_PT1_PR.SGY`, `16_81_PT2_PR.SGY`, `16_81_PT3_PR.SGY`, `31_81_PR.SGY`: 2D lines in SEGY format from the [USGS Alaska dataset](http://energy.usgs.gov/GeochemistryGeophysics/SeismicDataProcessingInterpretation/NPRASeismicDataArchive.aspx)
+* `segypy.py`: modified from the [original](https://github.com/rob-smallshire/segpy) to make it self-contained and portable (basically I have inserted `header_definition.py`, `ibm_float.py`, `revisions.py`, `trace_header_definition.py` into `segypy.py`).
+
+
 
 ## notes on running python
 
@@ -71,9 +75,3 @@ The package `sqlalchemy` complains about a missing compiler which may render thi
 Under Mac OS X, first install a [fortran compiler](https://gcc.gnu.org/wiki/GFortranBinaries) (also see [this other option](http://coudert.name/software/gfortran-4.8.2-Mavericks.dmg)). Then: `pip install obspy`.
 
 My above mentioned *HOMEMADE SOLUTION* for a working scientific Python system makes this step however much easier, because the required tools (like that fortran compiler) are all taken care of by Brew (the package manager); so you would just type in `pip install obspy` and that's it.
-
-A few links of interest for ObsPy:
-
-* <http://docs.obspy.org/tutorial/>
-* gallery with examples: <http://docs.obspy.org/gallery.html>
-* tutorial: <http://nbviewer.ipython.org/github/obspy/docs/blob/master/workshops/2014_mess/obspy_introduction.ipynb>
