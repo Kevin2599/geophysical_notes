@@ -11,10 +11,12 @@ Do magic things with well log data.
 
 #### support data for wellmagic
 
-* `qsiwell2.csv`: log data from Well 2 of [Quantitative Seismic Interpretation](https://pangea.stanford.edu/researchgroups/srb/resources/books/quantitative-seismic-interpretation)
+* `Well_2*.txt`: raw log data from Well 2 of [Quantitative Seismic Interpretation (QSI)](https://pangea.stanford.edu/researchgroups/srb/resources/books/quantitative-seismic-interpretation)
+* `qsiwell2.csv`: assembled all the logs from various files
 * `qsiwell2_frm.csv`: qsiwell2 + fluid replaced elastic logs
 * `qsiwell2_augmented.csv`: barebones well data, only Ip, Vp/Vs and LFC (litho-fluid class log)
 * `qsiwell2_synthetic.csv`: synthetic data generated through Monte Carlo simulation, same logs as in `qsiwell2_augmented.csv` (Ip, Vp/Vs and LFC)
+* `qsiwell2_dataprep.py`: Python script to assemble all the original QSI files
 
 ## seismic stuff
 
