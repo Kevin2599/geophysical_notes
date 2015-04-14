@@ -6,8 +6,8 @@ My collection of geophysical notes written as IPython notebooks.
 
 Do magic things with well log data.
 
-* [Seismic Petrophysics](http://nbviewer.ipython.org/github/aadm/Wellmagic/blob/master/seismic_petrophysics.ipynb)
-* [Seismic Petrophysics / interactive](http://nbviewer.ipython.org/github/aadm/Wellmagic/blob/master/seismic_petrophysics_interactive.ipynb)
+* [Seismic Petrophysics](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/seismic_petrophysics.ipynb)
+* [Seismic Petrophysics / interactive](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/seismic_petrophysics_interactive.ipynb)
 
 #### support data for "seismic petrophysics"
 
