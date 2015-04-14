@@ -26,7 +26,7 @@ def colorbar_index(ncolors, cmap):
 # Will use QSI dataset
 # data for 5 wells are available, I will use well 2
 
-w2=pd.read_table('Well_2.txt', sep='\s+', header=None, skiprows=1, names=['DEPTH','VP','VS','RHO','GR', 'NPHI'], na_values=['-999.2500'])
+w2=pd.read_table('well_2.txt', sep='\s+', header=None, skiprows=1, names=['DEPTH','VP','VS','RHO','GR', 'NPHI'], na_values=['-999.2500'])
 tmp1=pd.read_table('well_2_denscorr.txt', sep='\s+', header=None, skiprows=1, names=['DEPTH','RHO_CORR'], na_values=['-999.2500'])
 tmp2=pd.read_table('well_2_sats.txt', sep='\s+', header=None, skiprows=1, names=['DEPTH','SW','SWX'], na_values=['-999.2500'])
 tmp2.DEPTH+=25  # adds KB?, i.e. after comparison with SW plot on p.262 (QSI) I see ~25m difference in SW log plot

@@ -2,34 +2,33 @@
 
 My collection of geophysical notes written as IPython notebooks.
 
-## wellmagic
+# seismic petrophysics
 
 Do magic things with well log data.
 
-* [Creating synthetic data](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/creating_synthetic_data.ipynb)
-* [Creating synthetic data interactive](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/creating_synthetic_data_interactive.ipynb)
+* [Seismic Petrophysics](http://nbviewer.ipython.org/github/aadm/Wellmagic/blob/master/seismic_petrophysics.ipynb)
+* [Seismic Petrophysics / interactive](http://nbviewer.ipython.org/github/aadm/Wellmagic/blob/master/seismic_petrophysics_interactive.ipynb)
 
-#### support data for wellmagic
+#### support data for "seismic petrophysics"
 
-* `Well_2*.txt`: raw log data from Well 2 of [Quantitative Seismic Interpretation (QSI)](https://pangea.stanford.edu/researchgroups/srb/resources/books/quantitative-seismic-interpretation)
+* `well_2*.txt`: raw log data from Well 2 of [Quantitative Seismic Interpretation (QSI)](https://pangea.stanford.edu/researchgroups/srb/resources/books/quantitative-seismic-interpretation)
 * `qsiwell2.csv`: assembled all the logs from various files
 * `qsiwell2_frm.csv`: qsiwell2 + fluid replaced elastic logs
 * `qsiwell2_augmented.csv`: barebones well data, only Ip, Vp/Vs and LFC (litho-fluid class log)
 * `qsiwell2_synthetic.csv`: synthetic data generated through Monte Carlo simulation, same logs as in `qsiwell2_augmented.csv` (Ip, Vp/Vs and LFC)
 * `qsiwell2_dataprep.py`: Python script to assemble all the original QSI files
 
-## seismic stuff
+# seismic stuff
 
 How to load and display SEG-Y files, plus some simple ways to play with the data, e.g. extracting amplitude informations, adding noise & filtering.
 
 * [Seismic data in Python](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/seismic_data_in_python.ipynb)
-* Wedge for AVO
+* Wedge modeling for AVO
 
-#### support data for seismic stuff
+#### support data for "seismic stuff"
 
 * `16_81_PT1_PR.SGY`, `16_81_PT2_PR.SGY`, `16_81_PT3_PR.SGY`, `31_81_PR.SGY`: 2D lines in SEGY format from the [USGS Alaska dataset](http://energy.usgs.gov/GeochemistryGeophysics/SeismicDataProcessingInterpretation/NPRASeismicDataArchive.aspx)
 * `segypy.py`: modified from the [original](https://github.com/rob-smallshire/segpy) to make it self-contained and portable (basically I have inserted `header_definition.py`, `ibm_float.py`, `revisions.py`, `trace_header_definition.py` into `segypy.py`).
-
 
 
 ## notes on running python
@@ -62,7 +61,9 @@ Finally, get [Atom](https://atom.io/) to write your code, preview your markdown 
 
 To read and write SEG-Y data in Python you need some library like  [ObsPy](https://github.com/obspy/obspy/wiki) or [Segpy](https://github.com/rob-smallshire/segpy/).
 
-I have had trouble using ObsPy in Canopy Express since it's not included in the distributio and you have to install it separately. In Windows, open a Canopy command prompt and type in the following commands:
+I have included in this repo [a modified version of Segpy](https://github.com/aadm/geophysical_notes/blob/master/segypy.py) where I have simply collected all the scattered files of the original module (`segypy.py`, `header_definition.py`, `ibm_float.py`) into a single python file (`segypy.py`).
+
+About ObsPy: I have had trouble in installing it under Canopy Express in Windows since it's not included in the distributio and you have to install it separately. This is how I managed to install it: pen a Canopy command prompt and type in the following commands:
 
     easy_install lxml
     easy_install sqlalchemy (*)
