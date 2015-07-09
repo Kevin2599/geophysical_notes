@@ -19,6 +19,7 @@ Also see Wes Hamlyn's tutorial on Leading Edge "Thin Beds, tuning and AVO" (Dece
 https://github.com/seg/tutorials/tree/master/1412_Tuning_and_AVO
 
 HISTORY
+2015-05-07 updated make_synth, now works also on 1D arrays.
 2015-04-10 first public release.
 '''
 
@@ -26,44 +27,37 @@ import numpy as np
 import matplotlib.pyplot as plt
 import agilegeo
 
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def make_wedge(n_traces,layer_1_thickness,min_thickness,max_thickness,zz=0.1):
+def make_wedge(n_traces,encasing_thickness,min_thickness,max_thickness,dz=0.1):
     '''
     Creates wedge-shaped model made of 3 units with variable thickness.
 
     INPUT
     n_traces
-    layer_1_thickness
+    encasing_thickness
     min_thickness
     max_thickness
-    zz: vertical sample rate, by default 0.1 m
+    dz: vertical sample rate, by default 0.1 m
 
     OUTPUT
     wedge: 2D numpy array containing wedge-shaped model made of 3 units
     '''
-
-    padding_h   = 10
-    padding_v   = 20*(1./zz)
-    layer_1_thickness *= (1./zz)
-    min_thickness *= (1./zz)
-    max_thickness *= (1./zz)
-    left_wedge  = padding_h
-    right_wedge = n_traces-padding_h
-    dz=float(max_thickness-min_thickness)/float(right_wedge-left_wedge)
-    n_samples=max_thickness+padding_v+layer_1_thickness
-    top_wedge=layer_1_thickness
+    encasing_thickness *= (1./dz)
+    min_thickness *= (1./dz)
+    max_thickness *= (1./dz)
+    deltaz=float(max_thickness-min_thickness)/float(n_traces)
+    n_samples=max_thickness+encasing_thickness*2
+    top_wedge=encasing_thickness
     wedge = np.zeros((n_samples, n_traces))
-    wedge[0:top_wedge,:]=1
-    wedge[top_wedge:,:]=3
-    wedge[top_wedge:top_wedge+min_thickness,left_wedge:right_wedge]=2
-    for i,gg in enumerate(np.arange(left_wedge,right_wedge)):
-        wedge[top_wedge+min_thickness:top_wedge+min_thickness+int(round(dz*i)),gg]=2
-    print "wedge length: %.2f m" % (right_wedge-left_wedge)
-    print "wedge minimum thickness: %.2f m" % (min_thickness*zz)
-    print "wedge maximum thickness: %.2f m" % (max_thickness*zz)
-    print "wedge vertical sampling: %.2f m" % (zz)
-    print "wedge samples, traces: %dx%d" % (n_samples, n_traces)
+    wedge[0:encasing_thickness,:]=1
+    wedge[encasing_thickness:,:]=3
+    wedge[encasing_thickness:encasing_thickness+min_thickness,:]=2
+    for i in range(n_traces):
+        wedge[encasing_thickness+min_thickness:encasing_thickness+min_thickness+int(round(deltaz*i)),i]=2
+    print "wedge minimum thickness: %.2f m" % (min_thickness*dz)
+    print "wedge maximum thickness: %.2f m" % (max_thickness*dz)
+    print "wedge vertical sampling: %.2f m" % (dz)
+    print "wedge samples, traces: %dx%d" % (wedge.shape)
     return wedge
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -187,6 +181,7 @@ def make_rc_elastic(model_vp,model_vs,model_rho,ang):
     rc_far=np.concatenate((rc_far,np.zeros((1,n_traces))))
     return rc_near, rc_mid, rc_far
 
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def make_synth(rc,wavelet):
     '''
@@ -198,15 +193,35 @@ def make_synth(rc,wavelet):
 
     OUTPUT
     synth: 2D numpy array containing seismic data
+
+    Works with 1D arrays now (2015-05-07).
     '''
     nt=np.size(wavelet)
-    [n_samples, n_traces] = rc.shape
-    synth = np.zeros((n_samples+nt-1, n_traces))
-    for i in range(n_traces):
-        synth[:,i] = np.convolve(rc[:,i], wavelet)
-    synth = synth[np.ceil(len(wavelet))/2:-np.ceil(len(wavelet))/2, :]
-    synth=np.concatenate((synth,np.zeros((1,n_traces))))
+    if rc.ndim>1:
+        [n_samples, n_traces] = rc.shape
+        synth = np.zeros((n_samples+nt-1, n_traces))
+        for i in range(n_traces):
+            synth[:,i] = np.convolve(rc[:,i], wavelet)
+        synth = synth[np.ceil(len(wavelet))/2:-np.ceil(len(wavelet))/2, :]
+        synth=np.concatenate((synth,np.zeros((1,n_traces))))
+    else:
+        n_samples = rc.size
+        synth = np.zeros(n_samples+nt-1)
+        synth = np.convolve(rc, wavelet)
+        synth = synth[np.ceil(len(wavelet))/2:-np.ceil(len(wavelet))/2]
+        synth=np.concatenate((synth,[0]))
     return synth
+
+# def make_synth(rc,wavelet):
+#     nt=np.size(wavelet)
+#     [n_samples, n_traces] = rc.shape
+#     synth = np.zeros((n_samples+nt-1, n_traces))
+#     for i in range(n_traces):
+#         synth[:,i] = np.convolve(rc[:,i], wavelet)
+#     synth = synth[np.ceil(len(wavelet))/2:-np.ceil(len(wavelet))/2, :]
+#     synth=np.concatenate((synth,np.zeros((1,n_traces))))
+#     return synth
+#
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def make_synth_v2(rc,wavelet):
@@ -293,132 +308,140 @@ def forward_model_elastic_decay(model,elprop,wav_near,wav_mid,wav_far,dz,dt):
     far = make_synth(rc_far,wav_far)
     return near,mid,far
 
-#------------------------------------------------
-# PLOTTING FUNCTIONS
-#------------------------------------------------
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def plot_wavelet(wavelet,time):
+def extract_amp(data,elprop,encasing_thickness,min_thickness,max_thickness,dt,freq):
     '''
-    Plots wavelet.
-    Required timescale can be calculated with:
-
-    time=np.arange(-duration/2, duration/2 , dt)
-
-    where duration and dt (sample rate) are also given input to calculate wavelet.
-    '''
-    plt.figure(figsize=(8,5))
-    plt.plot(time,wavelet,lw=2,color='black')
-    plt.fill_between(time,wavelet,0,wavelet>0.0,interpolate=False,hold=True,color='blue', alpha = 0.5)
-    plt.fill_between(time,wavelet,0,wavelet<0.0,interpolate=False,hold=True,color='red', alpha = 0.5)
-    plt.grid()
-    plt.xlim(-0.1,0.1)
-    locs,labels = plt.xticks()
-    plt.xticks(locs[:-1], map(lambda x: "%d" % x, locs[:-1]*1000))
-    plt.xlabel( 'two-way time (ms)')
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def plot_rock_grid(data,zz=1):
-    '''
-    Plots rock model created with make_wedge.
+    Extracts top and bottom real/apparent amplitudes from wedge.
 
     INPUT
-    data: 2D numpy array containing values from 1 to 3
-    zz: vertical sample rate in depth
-    '''
-    import matplotlib.cm as cm
-    cc=cm.get_cmap('copper_r',3)
-    plt.figure(figsize=(12,6))
-    plt.imshow(data,extent=[0,data.shape[1],data.shape[0]*zz,0],cmap=cc,interpolation='none',aspect='auto')
-    cbar=plt.colorbar()
-    cbar.set_ticks(range(1,4)); cbar.set_ticklabels(range(1,4))
-    plt.grid()
+    data: synthetic wedge in twt
+    elprop: np.array([[vp1,rho1,vs1],[vp2,rho2,vs2],[vp3,rho3,vs3]])
+    encasing_thickness
+    min_thickness
+    max_thickness
+    dt: twt vertical sample rate
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def plot_density(data,zz=1,seismic=True):
+    OUTPUT
+    toptwt0,bottwt0: top, bottom horizon (REAL)
+    topamp0,botamp0: top, bottom amplitude (REAL)
+    toptwt1,bottwt1: top, bottom horizon (APPARENT)
+    topamp1,botamp1: top, bottom amplitude (APPARENT)
     '''
-    Density plot of generic 2D numpy array (seismic or any property e.g., velocity).
+    [ns,nt]=data.shape
+    twt=np.arange(0,ns*dt,dt)
 
-    INPUT
-    data: 2D numpy array containing seismic or elastic property
-    zz: vertical sample rate in depth or time
-    seismic: True to use red-blue colorscale
-    '''
-    plt.figure(figsize=(12,6))
-    if seismic==True:
-        clip=np.amax(abs(data))
-        plt.imshow(data,extent=[0,data.shape[1],data.shape[0]*zz,0],cmap='RdBu',vmax=clip,vmin=-clip,aspect='auto')
-    else:
-        plt.imshow(data,extent=[0,data.shape[1],data.shape[0]*zz,0],cmap='PiYG',aspect='auto')
-    plt.colorbar(), plt.grid()
+    Fd=freq*1.3
+    b=1/Fd
+    cerca=int((b/dt)/2)
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def plot_wiggle(data,zz=1,skip=1,gain=1,alpha=0.5,black=False):
-    '''
-    Wiggle plot of generic 2D numpy array.
+    # if Ip_above<Ip_below then we have an INCREASE in Ip = positive RC = peak
+    top_is_peak=elprop[0,0]*elprop[0,1]<elprop[1,0]*elprop[1,1]
+    bot_is_peak=elprop[1,0]*elprop[1,1]<elprop[2,0]*elprop[2,1]
 
-    INPUT
-    data: 2D numpy array
-    zz: vertical sample rate in depth or time
-    skip: interval to choose traces to draw
-    gain: multiplier applied to each trace
-    '''
-    [n_samples,n_traces]=data.shape
-    t=range(n_samples)
-    plt.figure(figsize=(9.6,6))
-    for i in range(0, n_traces,skip):
-        trace=gain*data[:,i] / np.max(np.abs(data))
-        plt.plot(i+trace,t,color='k', linewidth=0.5)
-        if black==False:
-            plt.fill_betweenx(t,trace+i,i, where=trace+i>i, facecolor=[0.6,0.6,1.0], linewidth=0)
-            plt.fill_betweenx(t,trace+i,i, where=trace+i<i, facecolor=[1.0,0.7,0.7], linewidth=0)
+    layer_1_twt=float(encasing_thickness)/elprop[0,0]*2
+    incr=(max_thickness-min_thickness)/float(nt)
+
+    toptwt0=np.zeros(nt)+layer_1_twt
+    bottwt0=np.zeros(nt)+layer_1_twt+(min_thickness/elprop[1,0]*2)
+    for i in range(nt):
+        bottwt0[i]=bottwt0[i]+incr*i/elprop[1,0]*2
+
+    # amplitude extraction at top,bottom REAL
+    topamp0=np.zeros(nt)
+    botamp0=np.zeros(nt)
+
+    for i,val in enumerate(toptwt0):
+        dd=np.abs(twt-val).argmin()
+        window=data[dd,i]
+        if top_is_peak:
+            topamp0[i]=window.max()
         else:
-            plt.fill_betweenx(t,trace+i,i, where=trace+i>i, facecolor='black', linewidth=0, alpha=alpha)
-    locs,labels=plt.yticks()
-    plt.yticks(locs,[n*zz for n in locs.tolist()])
-    plt.grid()
-    plt.gca().invert_yaxis()
+            topamp0[i]=window.min()
+
+    for i,val in enumerate(bottwt0):
+        dd=np.abs(twt-val).argmin()
+        window=data[dd,i]
+        if bot_is_peak:
+            botamp0[i]=window.max()
+        else:
+            botamp0[i]=window.min()
+
+    # amplitude extraction at top,bottom APPARENT
+    toptwt1=np.copy(toptwt0)
+    bottwt1=np.copy(bottwt0)
+    topamp1=np.zeros(nt)
+    botamp1=np.zeros(nt)
+
+    for i,val in enumerate(toptwt0):
+        dd=np.abs(twt-val).argmin() # sample corresponding to horizon pick
+        window=data[dd-cerca:dd+cerca,i] # amplitudes within a window centered on horizon pick and spanning -/+ samples (`cerca`)
+        if np.any(window):
+            if top_is_peak:
+                toptwt1[i]=twt[np.abs(data[:,i]-window.max()).argmin()]
+                topamp1[i]=window.max()
+            else:
+                toptwt1[i]=twt[np.abs(data[:,i]-window.min()).argmin()]
+                topamp1[i]=window.min()
+        else:
+            toptwt1[i]=np.NaN
+            topamp1[i]=np.NaN
+
+    for i,val in enumerate(bottwt0):
+        dd=np.abs(twt-val).argmin()
+        window=data[dd-cerca:dd+cerca,i]
+        if np.any(window):
+            if bot_is_peak:
+                bottwt1[i]=twt[np.abs(data[:,i]-window.max()).argmin()]
+                botamp1[i]=window.max()
+            else:
+                bottwt1[i]=twt[np.abs(data[:,i]-window.min()).argmin()]
+                botamp1[i]=window.min()
+        else:
+            bottwt1[i]=np.NaN
+            botamp1[i]=np.NaN
+
+    return toptwt0,bottwt0,topamp0,botamp0,toptwt1,bottwt1,topamp1,botamp1
+
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def plot_partial_stacks(near,mid,far,zz=1,label=''):
+def extract_peakfreqs(data,min_thickness,max_thickness,dt):
     '''
-    Density plot of near, mid, far stacks.
+    Extracts peak frequencies from wedge.
 
     INPUT
-    near, mid, far: 2D numpy arrays containing seismic
-    zz: vertical sample rate in twt
-    label
-    '''
-    clip=np.amax([abs(near), abs(mid), abs(far)])
-    f, ax = plt.subplots(nrows=1, ncols=3, figsize=(15,5))
-    im0=ax[0].imshow(near,extent=[0,near.shape[1],near.shape[0]*zz,0],cmap='RdBu',vmax=clip,vmin=-clip,aspect='auto')
-    ax[0].set_title(label+' (NEAR)',fontsize='small')
-    im1=ax[1].imshow(mid,extent=[0,near.shape[1],near.shape[0]*zz,0],cmap='RdBu',vmax=clip,vmin=-clip,aspect='auto')
-    ax[1].set_title(label+' (MID)',fontsize='small')
-    im2=ax[2].imshow(far,extent=[0,near.shape[1],near.shape[0]*zz,0],cmap='RdBu',vmax=clip,vmin=-clip,aspect='auto')
-    ax[2].set_title(label+' (FAR)',fontsize='small')
-    ax[0].set_ylabel('twt [s]')
-    cax = f.add_axes([0.925, 0.25, 0.02, 0.5])
-    cbar=f.colorbar(im0, cax=cax, orientation='vertical')
-    for i in range(len(ax)):
-        ax[i].grid()
+    data: synthetic wedge in twt
+    min_thickness
+    max_thickness
+    dt: twt vertical sample rate
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def update_xlabels(min_thickness,max_thickness,n_traces):
+    OUTPUT
+    aft: array with peak amplitude (A) at row 0, peak frequency (F) at row 1, thickness (T) at row 2
+    spectra: array with amplitude spectra for all traces
     '''
-    Updates x_labels with actual thickness of model (in meters).
-    '''
-    locs,labels=plt.xticks()
-    incr=(max_thickness-min_thickness)/(float(n_traces)-20)
-    newlabels=(locs[1:-1]-10)*incr+min_thickness
-    plt.xticks(locs[1:-1],[str(round(x,1))+'m' for x in newlabels])
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def update_ylabels(lag,thickness,vel):
-    '''
-    Updates y_labels to add lag in two-way-time,
-    given velocity of top layer having certain thickness.
-    '''
-    locs,labels=plt.yticks()
-    lagtop=thickness/vel*2
-    plt.yticks(locs[:-1],[round(y+lag-lagtop,3) for y in locs])
+    import aaplot
+    from scipy.signal import argrelmax
+    [ns,nt]=data.shape
+
+    amp0,ff0=aaplot.ampspec(data[:,0],dt)
+    spectra=np.zeros((amp0.size,nt))
+    aft=np.zeros((3,nt)) # row 0: peak Amplitudes, row 1: peak Frequencies, row 2: Thickness
+    for i in range(nt):
+        amp,ff=aaplot.ampspec(data[:,i],dt)
+        spectra[:,i]=amp
+        peak_freq_list=ff[argrelmax(amp)]
+        peak_amp_list=amp[argrelmax(amp)]
+        if peak_freq_list.size==0:
+            aft[0,i]=np.NaN
+            aft[1,i]=np.NaN
+        else:
+            uu=peak_amp_list==np.max(peak_amp_list)
+            peak_amp=peak_amp_list[uu]
+            peak_freq=peak_freq_list[uu]
+            aft[0,i]=peak_amp
+            aft[1,i]=peak_freq
+        incr=(max_thickness-min_thickness)/float(nt)
+        aft[2,i]=i*incr+min_thickness
+        # print peak_freq_list, peak_amp_list
+        # print 'traccia %d, peak freq=%.2f, spessore=%.2f' % (i, peak_freq, ss[2,i])
+    return aft, spectra
