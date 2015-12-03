@@ -2,6 +2,7 @@
 
 My collection of geophysical notes written as IPython notebooks.
 
+
 # seismic petrophysics
 
 Do magic things with well log data.
@@ -18,23 +19,27 @@ Do magic things with well log data.
 * `qsiwell2_synthetic.csv`: synthetic data generated through Monte Carlo simulation, same logs as in `qsiwell2_augmented.csv` (Ip, Vp/Vs and LFC)
 * `qsiwell2_dataprep.py`: Python script to assemble all the original QSI files
 
+
 # seismic stuff
 
 How to load and display SEG-Y files, plus some simple ways to play with the data, e.g. extracting amplitude informations, adding noise & filtering. Also, a notebook entirely dedicated to wedge modeling.
 
 * [Seismic data in Python](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/seismic_data_in_python.ipynb)
+* [Amplitude extraction](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/seismic_amplitude_extraction.ipynb)
 * [Wedge modeling for variable angles of incidence](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/wedge_modeling.ipynb)
 * [Notes on spectral decomposition](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/notes_spec_dec.ipynb)
 
 #### support data for "seismic stuff"
 
 * `16_81_PT1_PR.SGY`, `16_81_PT2_PR.SGY`, `16_81_PT3_PR.SGY`, `31_81_PR.SGY`: 2D lines in SEGY format from the [USGS Alaska dataset](http://energy.usgs.gov/GeochemistryGeophysics/SeismicDataProcessingInterpretation/NPRASeismicDataArchive.aspx)
-* `segypy.py`: modified from the [original](https://github.com/rob-smallshire/segpy) to make it self-contained and portable (basically I have inserted `header_definition.py`, `ibm_float.py`, `revisions.py`, `trace_header_definition.py` into `segypy.py`).
+* `3d_farstack.sgy`, `3d_nearstack.sgy`: 3D cubes from the QSI dataset (see above)
+* `Top_Heimdal_subset.txt`: interpreted horizon for the QSI near and far angle cubes
+* `segypy.py`: modified from the [original](https://github.com/rob-smallshire/segpy) to make it self-contained and portable (basically I have inserted `header_definition.py`, `ibm_float.py`, `revisions.py`, `trace_header_definition.py` into `segypy.py`)
 
 
 ## notes on running python
 
-Three options, I have personally tested #1 and #3.
+Three options:
 
 1. *CANOPY*
 
@@ -42,21 +47,22 @@ The easiest way is to get Canopy Express, a free download from [Enthought](https
 
 2. *ANACONDA*
 
-A similar solution that I have personally never tried but people swear by it, is [Anaconda](https://store.continuum.io/cshop/anaconda/).
+A similar solution that I am now using on my work PC; I can't say if this is better than Canopy, there must be differences but to me they are to all practical means equivalent. Get it [here](https://store.continuum.io/cshop/anaconda/).
 
 3. *HOMEMADE SOLUTION*
 
-Finally, for those that feel a little bit more adventurous, there is an homemade solution, which has the advantage of being a barebone installation with minimal impact on disk space; full instructions here: <http://penandpants.com/2013/04/04/install-scientific-python-on-mac-os-x/>. It involves installing [Homebrew](http://brew.sh) on your Mac, which is a [package manager](http://en.wikipedia.org/wiki/Package_manager) that is  a must for anybody tinkering with code and unix-like applications.
+Finally, for those that feel a little bit more adventurous (and use Macs), there is an homemade solution, which has the advantage of being a barebone installation with minimal impact on disk space; full instructions here: <http://penandpants.com/2013/04/04/install-scientific-python-on-mac-os-x/>. It involves installing [Homebrew](http://brew.sh) on your Mac, which is a [package manager](http://en.wikipedia.org/wiki/Package_manager) that is  a must for anybody tinkering with code and unix-like applications.
 
-After having installed everything enter this command in a Terminal window get IPyhton running and start coding (exactly the same as you would do in Canopy):
+After having installed everything enter this command in a Terminal window get IPyhton running and start coding:
 
-    ipython qtconsole --pylab=inline
+    ipython qtconsole
 
 To launch a notebook server to write your own notebooks:
 
     ipython notebook
 
 Finally, get [Atom](https://atom.io/) to write your code, preview your markdown etc., and you have a minimal (and free!) scientific system.
+
 
 ### using SEG-Y data
 
