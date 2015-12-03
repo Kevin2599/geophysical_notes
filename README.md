@@ -70,7 +70,7 @@ To read and write SEG-Y data in Python you need some library like  [ObsPy](https
 
 I have included in this repo [a modified version of Segpy](https://github.com/aadm/geophysical_notes/blob/master/segypy.py) where I have simply collected all the scattered files of the original module (`segypy.py`, `header_definition.py`, `ibm_float.py`) into a single python file (`segypy.py`).
 
-About ObsPy: I have had trouble in installing it under Canopy Express in Windows since it's not included in the distributio and you have to install it separately. This is how I managed to install it: pen a Canopy command prompt and type in the following commands:
+About ObsPy: I have had trouble in installing it under Canopy Express in Windows since it's not included in the distribution and you have to install it separately. This is how I managed to install it -- first open a Canopy command prompt and type in the following commands:
 
     easy_install lxml
     easy_install sqlalchemy (*)
@@ -80,7 +80,7 @@ About ObsPy: I have had trouble in installing it under Canopy Express in Windows
     easy_install mock
     easy_install obspy
 
-The package `sqlalchemy` complains about a missing compiler which may render things slower, and suggests to install [mingw](http://www.mingw.org/wiki/Getting_Started); I haven't done this and still works fine.
+The package `sqlalchemy` complains about a missing compiler which may render things slower, and suggests to install [mingw](http://www.mingw.org/wiki/Getting_Started); I haven't done this but everything works fine.
 
 Under Mac OS X, first install a [fortran compiler](https://gcc.gnu.org/wiki/GFortranBinaries) (also see [this other option](http://coudert.name/software/gfortran-4.8.2-Mavericks.dmg)). Then: `pip install obspy`.
 
