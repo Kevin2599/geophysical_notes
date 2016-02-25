@@ -44,49 +44,20 @@ How to load and display SEG-Y files, plus some simple ways to play with the data
 
 ## notes on running python
 
-Three options:
+I would recommend either [Enthought's Canopy Express]((https://www.enthought.com/products/canopy/))or [Anaconda](https://www.continuum.io/why-anaconda). I am now using Anaconda both on my work PC and my home computer (an Apple laptop) but I have also been happy with Canopy. There must be some difference between the two but for all practical means they are equivalent.
 
-1. *CANOPY*
+There is also a third solution (the _homemade solution_) which works only on Apple computers and not really recommended unless you are a little bit more adventurous. It has the advantage of being a barebone installation with minimal impact on disk space; full instructions here: <http://penandpants.com/2013/04/04/install-scientific-python-on-mac-os-x/>. It involves installing [Homebrew](http://brew.sh) on your Mac (which is a great [package manager](http://en.wikipedia.org/wiki/Package_manager) essential for anybody tinkering with code and unix-like applications on Macs). Then you do everything through [IPython or Jupyter notebooks](http://jupyter.org/), perhaps in conjunction with a modern (and free!) editor like [Atom](https://atom.io/) to write longer codes and preview your markdown.
 
-The easiest way is to get Canopy Express, a free download from [Enthought](https://www.enthought.com/products/canopy/), available on all platforms and actively maintained. All the major packages are included as well as many that you will never use; a package manager that takes care of updating all the libraries is also included.
-
-2. *ANACONDA*
-
-A similar solution that I am now using on my work PC; I can't say if this is better than Canopy, there must be differences but to me they are to all practical means equivalent. Get it [here](https://store.continuum.io/cshop/anaconda/).
-
-3. *HOMEMADE SOLUTION*
-
-Finally, for those that feel a little bit more adventurous (and use Macs), there is an homemade solution, which has the advantage of being a barebone installation with minimal impact on disk space; full instructions here: <http://penandpants.com/2013/04/04/install-scientific-python-on-mac-os-x/>. It involves installing [Homebrew](http://brew.sh) on your Mac, which is a [package manager](http://en.wikipedia.org/wiki/Package_manager) that is  a must for anybody tinkering with code and unix-like applications.
-
-After having installed everything enter this command in a Terminal window get IPyhton running and start coding:
-
-    ipython qtconsole
-
-To launch a notebook server to write your own notebooks:
-
-    ipython notebook
-
-Finally, get [Atom](https://atom.io/) to write your code, preview your markdown etc., and you have a minimal (and free!) scientific system.
-
+However, even if you're tight in (drive) space there is an easier solution than the above _homemade_ recipe, and that involves once again the good folks at Continuum that have created [miniconda](http://conda.pydata.org/miniconda.html) -- highly recommended!
 
 ### using SEG-Y data
 
-To read and write SEG-Y data in Python you need some library like  [ObsPy](https://github.com/obspy/obspy/wiki) or [Segpy](https://github.com/rob-smallshire/segpy/).
+To read and write SEG-Y data in Python you need some library like  [ObsPy](http://obspy.org) or [Segpy](https://github.com/sixty-north/segpy).
 
 I have included in this repo [a modified version of Segpy](https://github.com/aadm/geophysical_notes/blob/master/segypy.py) where I have simply collected all the scattered files of the original module (`segypy.py`, `header_definition.py`, `ibm_float.py`) into a single python file (`segypy.py`).
 
-About ObsPy: I have had trouble in installing it under Canopy Express in Windows since it's not included in the distribution and you have to install it separately. This is how I managed to install it -- first open a Canopy command prompt and type in the following commands:
+(Note added February 2016)
 
-    easy_install lxml
-    easy_install sqlalchemy (*)
-    easy_install suds>=0.4
-    easy_install flake8
-    easy_install nose
-    easy_install mock
-    easy_install obspy
+Until recently my favourite library was Segpy but recently I have had trouble reading a large (10Gb) SEG-Y exported from Petrel and only managed to read it using ObsPy. ObsPy has also matured to v1.0 so I would recommend it now-- if only for its SEG-Y support (what I didn't like before was simply the concept of using a large library aimed at research seismologists that does too many things that I don't use; but yes you could say that's true also for the way I use Numpy!).
 
-The package `sqlalchemy` complains about a missing compiler which may render things slower, and suggests to install [mingw](http://www.mingw.org/wiki/Getting_Started); I haven't done this but everything works fine.
-
-Under Mac OS X, first install a [fortran compiler](https://gcc.gnu.org/wiki/GFortranBinaries) (also see [this other option](http://coudert.name/software/gfortran-4.8.2-Mavericks.dmg)). Then: `pip install obspy`.
-
-My above mentioned *HOMEMADE SOLUTION* for a working scientific Python system makes this step however much easier, because the required tools (like that fortran compiler) are all taken care of by Brew (the package manager); so you would just type in `pip install obspy` and that's it.
+I also have to add that Segpy has been developed in the last months and I have not used this new version yet (there is a rather interesting "extract_dataset_3d" in the github repo that looks interesting).
