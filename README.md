@@ -14,7 +14,7 @@ Do magic things with well log data.
 
 #### support data for "seismic petrophysics"
 
-* `well_2*.txt`: raw log data from Well 2 of [Quantitative Seismic Interpretation (QSI)](https://pangea.stanford.edu/researchgroups/srb/resources/books/quantitative-seismic-interpretation)
+* `well_2*.txt`: raw log data from Well 2 of [Quantitative Seismic Interpretation (QSI)](https://srb.stanford.edu/quantitative-seismic-interpretation)
 * `qsiwell2.csv`: assembled all the logs from various files
 * `qsiwell2_frm.csv`: qsiwell2 + fluid replaced elastic logs
 * `qsiwell2_augmented.csv`: barebones well data, only Ip, Vp/Vs and LFC (litho-fluid class log)
@@ -40,7 +40,6 @@ How to load and display SEG-Y files, plus some simple ways to play with the data
 * `16_81_PT1_PR.SGY`, `16_81_PT2_PR.SGY`, `16_81_PT3_PR.SGY`, `31_81_PR.SGY`: 2D lines in SEGY format from the [USGS Alaska dataset](http://energy.usgs.gov/GeochemistryGeophysics/SeismicDataProcessingInterpretation/NPRASeismicDataArchive.aspx)
 * `3d_farstack.sgy`, `3d_nearstack.sgy`: 3D cubes from the QSI dataset (see above)
 * `Top_Heimdal_subset.txt`: interpreted horizon for the QSI near and far angle cubes
-* `segypy.py`: modified from the [original](https://github.com/rob-smallshire/segpy) to make it self-contained and portable (basically I have inserted `header_definition.py`, `ibm_float.py`, `revisions.py`, `trace_header_definition.py` into `segypy.py`)
 
 
 ## notes on running python
@@ -55,10 +54,4 @@ However, even if you're tight in (drive) space there is an easier solution than 
 
 To read and write SEG-Y data in Python you need some library like  [ObsPy](http://obspy.org) or [Segpy](https://github.com/sixty-north/segpy).
 
-I have included in this repo [a modified version of Segpy](https://github.com/aadm/geophysical_notes/blob/master/segypy.py) where I have simply collected all the scattered files of the original module (`segypy.py`, `header_definition.py`, `ibm_float.py`) into a single python file (`segypy.py`).
-
-(Note added February 2016)
-
-Until recently my favourite library was Segpy but recently I have had trouble reading a large (10Gb) SEG-Y exported from Petrel and only managed to read it using ObsPy. ObsPy has also matured to v1.0 so I would recommend it now-- if only for its SEG-Y support (what I didn't like before was simply the concept of using a large library aimed at research seismologists that does too many things that I don't use; but yes you could say that's true also for the way I use Numpy!).
-
-I also have to add that Segpy has been developed in the last months and I have not used this new version yet (there is a rather interesting "extract_dataset_3d" in the github repo that looks interesting).
+ObsPy is capable of reading large (10Gb) SEG-Ys exported from Petrel; it has also matured to v1.0 so I would recommend it now-- if only for its SEG-Y support (what I didn't like before was simply the concept of using a large library aimed at research seismologists that does too many things that I don't use; but yes you could say that's true also for the way I use Numpy!). I haven't tried the latest version of Segpy (which only runs on Python 3) on similarly large datasets.
