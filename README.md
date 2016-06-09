@@ -41,6 +41,13 @@ How to load and display SEG-Y files, plus some simple ways to play with the data
 * `3d_farstack.sgy`, `3d_nearstack.sgy`: 3D cubes from the QSI dataset (see above)
 * `Top_Heimdal_subset.txt`: interpreted horizon for the QSI near and far angle cubes
 
+# miscellaneous
+
+Other notebook of interest somewhat related to geophysics, such as a notebook showing a comparison between colormaps (the dreadful _jet_ against a bunch of -- better -- alternatives).
+
+* [Color palettes](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/colormaps.ipynb)
+
+
 
 ## notes on running python
 
