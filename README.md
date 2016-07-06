@@ -1,6 +1,6 @@
 # // geophysical_notes //
 
-My collection of geophysical notes written as IPython notebooks.
+My collection of geophysical notes written as Jupyter notebooks.
 
 
 # seismic petrophysics
@@ -43,7 +43,7 @@ How to load and display SEG-Y files, plus some simple ways to play with the data
 
 # miscellaneous
 
-Other notebook of interest somewhat related to geophysics, such as a notebook showing a comparison between colormaps (the dreadful _jet_ against a bunch of -- better -- alternatives).
+Other notebook of interest, maybe only tangentially related to geophysics, such as a notebook showing a comparison between colormaps (the dreadful _jet_ against a bunch of -- better -- alternatives).
 
 * [Color palettes](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/colormaps.ipynb)
 
@@ -59,6 +59,6 @@ However, even if you're tight in (drive) space there is an easier solution than 
 
 ### using SEG-Y data
 
-To read and write SEG-Y data in Python you need some library like  [ObsPy](http://obspy.org) or [Segpy](https://github.com/sixty-north/segpy).
+To read and write SEG-Y data in Python you need additional libraries like  [ObsPy](http://obspy.org) or [Segpy](https://github.com/sixty-north/segpy).
 
 ObsPy is capable of reading large (10Gb) SEG-Ys exported from Petrel; it has also matured to v1.0 so I would recommend it now-- if only for its SEG-Y support (what I didn't like before was simply the concept of using a large library aimed at research seismologists that does too many things that I don't use; but yes you could say that's true also for the way I use Numpy!). I haven't tried the latest version of Segpy (which only runs on Python 3) on similarly large datasets.
