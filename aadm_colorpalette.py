@@ -128,9 +128,14 @@ cm.register_cmap(name='jetsaw_r', cmap=cmap_jetsaw_r)
 #==== colorbars di Peter Kovesi http://peterkovesi.com/projects/colourmaps/
 path = 'CETperceptual_csv_0_1'
 for ff in os.listdir(path):
-    cname=ff.split(sep='.')[0].replace('_n256','')
+    pippo=ff.split(sep='_')[0:3]
+    cname='_'.join(pippo)
+#    print('{:>50s} --> {:<30s}'.format(ff, cname))
     cc = np.loadtxt(os.path.join(path,ff), delimiter=',')
     cm.register_cmap(name=cname, cmap=LinearSegmentedColormap(cname,creacolormap(cc)))
+    cm.register_cmap(name=cname+'_r', cmap=LinearSegmentedColormap(cname,creacolormap(np.flipud(cc))))
+
+
 
 #==== colorbar di Decision Space
  # black  purple       blue       cyan         green      red       yellow
