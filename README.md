@@ -43,15 +43,16 @@ How to load and display SEG-Y files, plus some simple ways to play with the data
 
 # miscellaneous
 
-Other notebook of interest, maybe only tangentially related to geophysics, such as a notebook showing a comparison between colormaps (the dreadful _jet_ against a bunch of -- better -- alternatives).
+Other notebook of interest, maybe only tangentially related to geophysics, such as a notebook showing a comparison between colormaps (the dreadful _jet_ against a bunch of better alternatives).
 
 * [Color palettes](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/colormaps.ipynb)
+* [Inverse Gardner](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/inverse_gardner.ipynb)
 
 
 
 ## notes on running python
 
-I would recommend either [Enthought's Canopy Express]((https://www.enthought.com/products/canopy/))or [Anaconda](https://www.continuum.io/why-anaconda). I am now using Anaconda both on my work PC and my home computer (an Apple laptop) but I have also been happy with Canopy. There must be some difference between the two but for all practical means they are equivalent.
+I would recommend either [Enthought's Canopy Express]((https://www.enthought.com/products/canopy/)) or [Anaconda](https://www.continuum.io/why-anaconda). I am now using Anaconda both on my work PC and my home computer (an Apple laptop) but I have also been happy with Canopy. There must be some difference between the two but for all practical means they seem to me pretty much the same.
 
 There is also a third solution (the _homemade solution_) which works only on Apple computers and not really recommended unless you are a little bit more adventurous. It has the advantage of being a barebone installation with minimal impact on disk space; full instructions here: <http://penandpants.com/2013/04/04/install-scientific-python-on-mac-os-x/>. It involves installing [Homebrew](http://brew.sh) on your Mac (which is a great [package manager](http://en.wikipedia.org/wiki/Package_manager) essential for anybody tinkering with code and unix-like applications on Macs). Then you do everything through [IPython or Jupyter notebooks](http://jupyter.org/), perhaps in conjunction with a modern (and free!) editor like [Atom](https://atom.io/) to write longer codes and preview your markdown.
 
