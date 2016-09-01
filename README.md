@@ -43,7 +43,7 @@ How to load and display SEG-Y files, plus some simple ways to play with the data
 
 # miscellaneous
 
-Other notebook of interest, maybe only tangentially related to geophysics, such as a notebook showing a comparison between colormaps (the dreadful _jet_ against a bunch of better alternatives).
+Other notebook of interest, maybe only tangentially related to geophysics, such as a notebook showing a comparison between colormaps (the dreadful _jet_ against a bunch of better alternatives) and another that uses the well known Gardner's equation as an excuse to practice data fitting in Python.
 
 * [Color palettes](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/colormaps.ipynb)
 * [Inverse Gardner](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/inverse_gardner.ipynb)
