@@ -118,7 +118,7 @@ def plot_color_gradients(colormaps):
 
 
 #==== colorbars di Matteo Niccoli
-cc = np.loadtxt('sawtooth_0-1.csv', delimiter=',')
+cc = np.loadtxt('colormap_sawtooth.csv', delimiter=',')
 cmap_jetsaw = LinearSegmentedColormap('jetsaw',creacolormap(cc))
 cm.register_cmap(name='jetsaw', cmap=cmap_jetsaw)
 
