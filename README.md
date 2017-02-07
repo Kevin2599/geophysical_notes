@@ -67,3 +67,7 @@ However, even if you're tight in (drive) space there is an easier solution than 
 To read and write SEG-Y data in Python you need additional libraries like  [ObsPy](http://obspy.org) or [Segpy](https://github.com/sixty-north/segpy).
 
 ObsPy is capable of reading large (10Gb) SEG-Ys exported from Petrel; it has also matured to v1.0 so I would recommend it now-- if only for its SEG-Y support (what I didn't like before was simply the concept of using a large library aimed at research seismologists that does too many things that I don't use; but yes you could say that's true also for the way I use Numpy!). I haven't tried the latest version of Segpy (which only runs on Python 3) on similarly large datasets.
+
+## TO-DO
+
+* add examples on using `xarray` for 3D seismic cubes.
