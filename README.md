@@ -36,7 +36,7 @@ How to load and display SEG-Y files, plus some simple ways to play with the data
 * [Elastic Impedance](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/elastic_impedance.ipynb)
 * ["The relationship between reflectivity and elastic impedance", or how to reproduce figure 5.62 from Seismic Amplitude by Simm & Bacon (2014)](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/relationship-reflectivity-elastic-impedance_Simm-Bacon.ipynb)
 * [Notes on anisotropic AVO equations](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/anisotropic_avo.ipynb)
-* [AVO Explorer v2: Interactive AVO and AVO classes explorer; meant to be download and run locally (I will try to put it on some hosting site like mybinder.org](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/avo_explorer_v2.ipynb)
+* [AVO Explorer v2: Interactive AVO and AVO classes explorer](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/avo_explorer_v2.ipynb): meant to be downloaded and run locally.
 
 
 #### support data for "seismic stuff"
