@@ -22,7 +22,7 @@ Do magic things with well log data.
 * `qsiwell2_dataprep.py`: Python script to assemble all the original QSI files
 
 
-# seismic stuff
+# seismic and rock physics stuff
 
 How to load and display SEG-Y files, plus some simple ways to play with the data, e.g. extracting amplitude informations, adding noise & filtering. Also, a notebook entirely dedicated to wedge modeling and how to reproduce a couple of figures from scientific publications.
 
@@ -37,6 +37,7 @@ How to load and display SEG-Y files, plus some simple ways to play with the data
 * ["The relationship between reflectivity and elastic impedance", or how to reproduce figure 5.62 from Seismic Amplitude by Simm & Bacon (2014)](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/relationship-reflectivity-elastic-impedance_Simm-Bacon.ipynb)
 * [Notes on anisotropic AVO equations](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/anisotropic_avo.ipynb)
 * [AVO Explorer v2: Interactive AVO and AVO classes explorer](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/avo_explorer_v2.ipynb): meant to be downloaded and run locally.
+* [Simple porosity modeling](http://nbviewer.ipython.org/github/aadm/geophysical_notes/blob/master/simple_porosity_modeling.ipynb): how to model porosity variations and its effects on elastic properties using the concept of pore stiffness invariance.
 
 
 #### support data for "seismic stuff"
