@@ -57,18 +57,34 @@ Other notebook of interest, maybe only tangentially related to geophysics, such 
 
 ## notes on running python
 
-I would recommend either [Enthought's Canopy Express]((https://www.enthought.com/products/canopy/)) or [Anaconda](https://www.continuum.io/why-anaconda). I am now using Anaconda both on my work PC and my home computer (an Apple laptop) but I have also been happy with Canopy. There must be some difference between the two but for all practical means they seem to me pretty much the same.
+I used to recommend either [Enthought's Canopy Express]((https://www.enthought.com/products/canopy/)) or [Anaconda](https://www.continuum.io/why-anaconda). I haven't been using Canopy for a while now and I'm very particular about installing stuff on my computers, so right now what I use (and suggest everyone else to do) is to install a subset of Anaconda called [miniconda](http://conda.pydata.org/miniconda.html). Starting from this, it's easy to install the packages you need for your work and nothing else. For example, this is how I setup my system for work:
 
-There is also a third solution (the _homemade solution_) which works only on Apple computers and not really recommended unless you are a little bit more adventurous. It has the advantage of being a barebone installation with minimal impact on disk space; full instructions here: <http://penandpants.com/2013/04/04/install-scientific-python-on-mac-os-x/>. It involves installing [Homebrew](http://brew.sh) on your Mac (which is a great [package manager](http://en.wikipedia.org/wiki/Package_manager) essential for anybody tinkering with code and unix-like applications on Macs). Then you do everything through [IPython or Jupyter notebooks](http://jupyter.org/), perhaps in conjunction with a modern (and free!) editor like [Atom](https://atom.io/) to write longer codes and preview your markdown.
+```
+$ conda install numpy scipy pandas matplotlib jupyter scikit-learn scikit-image xarray dask netCDF4 bottleneck
+$ conda install -c bokeh colorcet
+$ conda install -c conda-forge jupyterlab
+```
 
-However, even if you're tight in (drive) space there is an easier solution than the above _homemade_ recipe, and that involves once again the good folks at Continuum that have created [miniconda](http://conda.pydata.org/miniconda.html) -- highly recommended!
+Then I install some additional packages with `pip`:
+
+```
+$ pip install bruges lasio segyio mplstereonet welly
+```
+
+Instead of [integrated environments](https://en.wikipedia.org/wiki/Integrated_development_environment) (for example, [Spyder](https://github.com/spyder-ide/spyder)) I simply use a modern (and free!) editor like [Atom](https://atom.io/) to code and write anything (also [my blog](http://aadm.github.io)). However, [JupyterLab](https://github.com/jupyterlab/jupyterlab) gets better everyday and it can already be used to do everything in a browser window (but to me it's still slower than a text editor and a jupyter console window); I like the idea of Juyter Notebooks to distribute commented code and simply as a working tool to make code interact with explanatory text and plots.
 
 ### using SEG-Y data
 
-To read and write SEG-Y data in Python you need additional libraries like  [ObsPy](http://obspy.org) or [Segpy](https://github.com/sixty-north/segpy).
+To read and write SEG-Y data in Python you need additional libraries like  [ObsPy](http://obspy.org), [Segpy](https://github.com/sixty-north/segpy) or Statoil's [segyio](https://github.com/Statoil/segyio). 
 
-ObsPy is capable of reading large (10Gb) SEG-Ys exported from Petrel; it has also matured to v1.0 so I would recommend it now-- if only for its SEG-Y support (what I didn't like before was simply the concept of using a large library aimed at research seismologists that does too many things that I don't use; but yes you could say that's true also for the way I use Numpy!). I haven't tried the latest version of Segpy (which only runs on Python 3) on similarly large datasets.
+I have recently tested segyio from Statoil and it has immediately become my preferred choice. It is easy to use and fast; it reads a 340 Mb segy in 1 second (while obspy does that in more than 8!):
 
-## TO-DO
+```
+# timeit results using segyio:
+1.11 s ± 17.7 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 
-* add examples on using `xarray` for 3D seismic cubes.
+# timeit results using obspy:
+8.85 s ± 1.07 s per loop (mean ± std. dev. of 7 runs, 1 loop each)
+```
+
+ObsPy is a library with so many functions aimed at research seismologists, and I was only using the segy-reading capabilities, so I'm happy to have switched to a smaller library (which is also way more efficient). Have a look at [this notebook](https://github.com/aadm/geophysical_notes/blob/master/seismic_data_in_python.ipynb) for some examples on how to use it.
