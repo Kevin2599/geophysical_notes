@@ -87,4 +87,4 @@ I have recently tested segyio from Statoil and it has immediately become my pref
 8.85 s ± 1.07 s per loop (mean ± std. dev. of 7 runs, 1 loop each)
 ```
 
-ObsPy is a library with so many functions aimed at research seismologists, and I was only using the segy-reading capabilities, so I'm happy to have switched to a smaller library (which is also way more efficient). Have a look at [this notebook](https://github.com/aadm/geophysical_notes/blob/master/seismic_data_in_python.ipynb) for some examples on how to use it.
+ObsPy is a library with so many functions aimed at research seismologists, and I was only using the segy-reading capabilities, so I'm happy to have switched to a smaller library (which is also way more efficient). Have a look at [this notebook](https://github.com/aadm/geophysical_notes/blob/master/seismic_data_in_python.ipynb) for some examples on how to import seismic data and do stuff.
